@@ -226,7 +226,7 @@ stillbirth_neonatal <- stillbirth_neonatal[order(nrow(stillbirth_neonatal):1),]
 # but means it isn't as automated. something to be aware of. 
 #  each update, will have to increase rows from 170, to 171, etc...
 
-trolley_waits <- read_xlsx("18_trolley waits.xlsx", sheet = "Activity", range = "B14:N170")
+trolley_waits <- read_xlsx("18_trolley waits.xlsx", sheet = "Activity", range = "B14:N172")
 
 # selecting relevant columns
 trolley_waits <- trolley_waits %>% select(`Period`, `Total Attendances`, 
@@ -257,7 +257,7 @@ staff_survey <- staff_survey[-1,] %>% filter(`top priority` != 0)
 
 
 
-
+#****NOTE THIS SECTION NEEDS UPDATING TO THE NEW 31D METRIC INSTEAD OF TWO WEEK WAIT*****#
 #cancer waiting times
 #read in data - note that range will have to increase by one row each month
 cancer_waits <- read_xlsx("21_cancer waits.xlsx", sheet = "Monthly Data", range = "AR4:AV169")
@@ -326,6 +326,18 @@ long_waiters <- na.omit(long_waiters)
 
 
 
+#Never events data
+Never_events <- read_xlsx("24_never events.xlsx", sheet = "never events")
+
+
+#Friends and family test data
+FFT_data <- read_xlsx("25_FFT data.xlsx", sheet = "Combined data over time")
+
+
+#Adult inpatient survey data
+Adult_IP_survey <- read_xlsx("26_adult IP survey.xlsx", sheet = "Sheet1")
+
+
 
 #CURRENTLY MISSING CODE FOR 02_03_CQC DATA AND 19_AMBULANCE RESPONSE TIMES, ambulance is below the read back into excel, and CQC is yet to be generated.
 #They need to be added to the list of datasets below once they are added above this line.
@@ -357,7 +369,10 @@ list_of_datasets <- list("01 Patient safety incidents" = PS_incidents,
                          "18 Trolley waits" = trolley_waits,
                          "20 Long waiters" = long_waiters,
                          "21 Cancer waits" = cancer_waits,
-                         "22 23 SB & Neonatal mort" = stillbirth_neonatal) 
+                         "22 23 SB & Neonatal mort" = stillbirth_neonatal,
+                         "24 Never events" = Never_events,
+                         "25 Friends family test" = FFT_data,
+                         "26 Adult IP survey" = Adult_IP_survey) 
 
 #reading in the list of datasets so each metric will have it's own tab
 
