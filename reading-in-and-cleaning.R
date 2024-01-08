@@ -310,7 +310,7 @@ SOF_segment <- read_xlsx("14_SOF segmentation.xlsx", sheet = "Sheet1")
 # This also solves the dates issue for some reason & reads in the column in date format!
 
 #NOTE: This range will only work until March 2024 - will then have to update
-long_waiters <- read_xlsx("20_long waiters.xlsx", range = "B10:M215")
+long_waiters <- read_xlsx("20_long waiters.xlsx", range = "B11:M216")
 
 #filtering for just Month and %>52 weeks wait
 long_waiters <- long_waiters %>% select(Month, ...12)
