@@ -15,23 +15,351 @@ library(tidyxl)
 library(readxl)
 library(openxlsx) 
 library(dplyr)
+library(rvest)
 
 # ---------- Healthcare acquired infection rates and antimicrobial resistance -----------------------------
+# Healthcare aquired infections automation
+  #E-Coli
 
-#loading in HCAI rates and antimicrobial resistance csv files (all fingertips data)
+# URL of the webpage containing the CSV link
+url <- "https://fingertips.phe.org.uk/profile/amr-local-indicators/data#page/4/gid/1938132910/pat/159/par/K02000001/ati/15/are/E92000001/iid/93004/age/1/sex/4/cat/-1/ctp/-1/yrr/1/cid/4/tbm/1"
+
+# Name of the file to be downloaded
+filename <- "Trends.csv"
+
+# New name for the downloaded file
+new_filename <- "04_HCA_E-Coli.csv"
+
+# Folder path to save the downloaded file
+folder_path <- "C:/Users/ABarraclough/Department of Health and Social Care/NW012 - QSAT/Patient Safety/Data & Analysis/101 Dashboard_2022/Dashboard/patient-safety-dashboard/Metrics/inputs for R"
+
+# Function to download CSV file and replace the previous one
+download_and_rename <- function(url, filename, new_filename, folder_path) {
+  # Read the webpage
+  page <- read_html(url)
+  
+  # Extract the link to the CSV file
+  csv_link <- page %>%
+    html_nodes("a[href$='.csv']") %>%
+    html_attr("href") %>%
+    .[1]  # Select the first CSV link (assuming there's only one)
+  
+  # Download the CSV file
+  if (!is.na(csv_link)) {
+    download.file(csv_link, paste0(folder_path, new_filename), mode = "wb", quiet = TRUE)
+    cat("Download complete.\n")
+    
+    # Check if the previous file exists in the folder path
+    if (file.exists(paste0(folder_path, filename))) {
+      # Remove the previous file
+      file.remove(paste0(folder_path, filename))
+      cat("Previous file removed.\n")
+    }
+  } else {
+    cat("CSV link not found on the webpage.\n")
+  }
+}
+
+# Download the CSV file and replace the previous one
+download_and_rename(url, filename, new_filename, folder_path)
+
+#load in E-Coli rates 
 HCAI_Ecoli <- read_csv("04_HCAI_E-coli.csv")
+
+#clean the data
+HCAI_Ecoli <- HCAI_Ecoli %>% select(`Time period`, Value, Count)
+
+  #MSSA
+
+
+# URL of the webpage containing the CSV link
+url <- "https://fingertips.phe.org.uk/profile/amr-local-indicators/data#page/4/gid/1938132910/pat/159/par/K02000001/ati/15/are/E92000001/iid/93004/age/1/sex/4/cat/-1/ctp/-1/yrr/1/cid/4/tbm/1"
+
+# Name of the file to be downloaded
+filename <- "Trends.csv"
+
+# New name for the downloaded file
+new_filename <- "05_HCIA_MSSA.csv"
+
+# Folder path to save the downloaded file
+folder_path <- "C:/Users/ABarraclough/Department of Health and Social Care/NW012 - QSAT/Patient Safety/Data & Analysis/101 Dashboard_2022/Dashboard/patient-safety-dashboard/Metrics/inputs for R"
+
+# Function to download CSV file and replace the previous one
+download_and_rename <- function(url, filename, new_filename, folder_path) {
+  # Read the webpage
+  page <- read_html(url)
+  
+  # Extract the link to the CSV file
+  csv_link <- page %>%
+    html_nodes("a[href$='.csv']") %>%
+    html_attr("href") %>%
+    .[1]  # Select the first CSV link (assuming there's only one)
+  
+  # Download the CSV file
+  if (!is.na(csv_link)) {
+    download.file(csv_link, paste0(folder_path, new_filename), mode = "wb", quiet = TRUE)
+    cat("Download complete.\n")
+    
+    # Check if the previous file exists in the folder path
+    if (file.exists(paste0(folder_path, filename))) {
+      # Remove the previous file
+      file.remove(paste0(folder_path, filename))
+      cat("Previous file removed.\n")
+    }
+  } else {
+    cat("CSV link not found on the webpage.\n")
+  }
+}
+
+# Download the CSV file and replace the previous one
+download_and_rename(url, filename, new_filename, folder_path)
+
+#load in MSSA rates
 HCAI_MSSA <- read_csv("05_HCAI_MSSA.csv")
+
+#clean the data
+HCAI_MSSA <- HCAI_MSSA %>% select(`Time period`, Value, Count)
+
+  #Klebsiella
+
+# URL of the webpage containing the CSV link
+url <- "https://fingertips.phe.org.uk/profile/amr-local-indicators/data#page/4/gid/1938132910/pat/159/par/K02000001/ati/15/are/E92000001/iid/93004/age/1/sex/4/cat/-1/ctp/-1/yrr/1/cid/4/tbm/1"
+
+# Name of the file to be downloaded
+filename <- "Trends.csv"
+
+# New name for the downloaded file
+new_filename <- "06_HCIA_Klebsiella spp.csv"
+
+# Folder path to save the downloaded file
+folder_path <- "C:/Users/ABarraclough/Department of Health and Social Care/NW012 - QSAT/Patient Safety/Data & Analysis/101 Dashboard_2022/Dashboard/patient-safety-dashboard/Metrics/inputs for R"
+
+# Function to download CSV file and replace the previous one
+download_and_rename <- function(url, filename, new_filename, folder_path) {
+  # Read the webpage
+  page <- read_html(url)
+  
+  # Extract the link to the CSV file
+  csv_link <- page %>%
+    html_nodes("a[href$='.csv']") %>%
+    html_attr("href") %>%
+    .[1]  # Select the first CSV link (assuming there's only one)
+  
+  # Download the CSV file
+  if (!is.na(csv_link)) {
+    download.file(csv_link, paste0(folder_path, new_filename), mode = "wb", quiet = TRUE)
+    cat("Download complete.\n")
+    
+    # Check if the previous file exists in the folder path
+    if (file.exists(paste0(folder_path, filename))) {
+      # Remove the previous file
+      file.remove(paste0(folder_path, filename))
+      cat("Previous file removed.\n")
+    }
+  } else {
+    cat("CSV link not found on the webpage.\n")
+  }
+}
+
+# Download the CSV file and replace the previous one
+download_and_rename(url, filename, new_filename, folder_path)
+
+#load in Klebsiella rates
 HCAI_Klebsiella <- read_csv("06_HCAI_Klebsiella spp.csv")
+
+#clean the data
+HCAI_Klebsiella <- HCAI_Klebsiella %>% select(`Time period`, Value, Count)
+
+  #C.diff
+
+# URL of the webpage containing the CSV link
+url <- "https://fingertips.phe.org.uk/profile/amr-local-indicators/data#page/4/gid/1938132910/pat/159/par/K02000001/ati/15/are/E92000001/iid/93004/age/1/sex/4/cat/-1/ctp/-1/yrr/1/cid/4/tbm/1"
+
+# Name of the file to be downloaded
+filename <- "Trends.csv"
+
+# New name for the downloaded file
+new_filename <- "07_HCIA_C.diff.csv"
+
+# Folder path to save the downloaded file
+folder_path <- "C:/Users/ABarraclough/Department of Health and Social Care/NW012 - QSAT/Patient Safety/Data & Analysis/101 Dashboard_2022/Dashboard/patient-safety-dashboard/Metrics/inputs for R"
+
+# Function to download CSV file and replace the previous one
+download_and_rename <- function(url, filename, new_filename, folder_path) {
+  # Read the webpage
+  page <- read_html(url)
+  
+  # Extract the link to the CSV file
+  csv_link <- page %>%
+    html_nodes("a[href$='.csv']") %>%
+    html_attr("href") %>%
+    .[1]  # Select the first CSV link (assuming there's only one)
+  
+  # Download the CSV file
+  if (!is.na(csv_link)) {
+    download.file(csv_link, paste0(folder_path, new_filename), mode = "wb", quiet = TRUE)
+    cat("Download complete.\n")
+    
+    # Check if the previous file exists in the folder path
+    if (file.exists(paste0(folder_path, filename))) {
+      # Remove the previous file
+      file.remove(paste0(folder_path, filename))
+      cat("Previous file removed.\n")
+    }
+  } else {
+    cat("CSV link not found on the webpage.\n")
+  }
+}
+
+# Download the CSV file and replace the previous one
+download_and_rename(url, filename, new_filename, folder_path)
+
+#load in C.diff rates
+HCAI_C.diff <- read_csv("07_HCIA_C.diff.csv")
+
+#clean the data
+HCAI_C.diff <- HCAI_C.diff %>% select(`Time period`, Value, Count)
+
+  P.aeruginosa
+
+# URL of the webpage containing the CSV link
+url <- "https://fingertips.phe.org.uk/profile/amr-local-indicators/data#page/4/gid/1938132910/pat/159/par/K02000001/ati/15/are/E92000001/iid/93004/age/1/sex/4/cat/-1/ctp/-1/yrr/1/cid/4/tbm/1"
+
+# Name of the file to be downloaded
+filename <- "Trends.csv"
+
+# New name for the downloaded file
+new_filename <- "07_HCAI_P.aeruginosa"
+
+# Folder path to save the downloaded file
+folder_path <- "C:/Users/ABarraclough/Department of Health and Social Care/NW012 - QSAT/Patient Safety/Data & Analysis/101 Dashboard_2022/Dashboard/patient-safety-dashboard/Metrics/inputs for R"
+
+# Function to download CSV file and replace the previous one
+download_and_rename <- function(url, filename, new_filename, folder_path) {
+  # Read the webpage
+  page <- read_html(url)
+  
+  # Extract the link to the CSV file
+  csv_link <- page %>%
+    html_nodes("a[href$='.csv']") %>%
+    html_attr("href") %>%
+    .[1]  # Select the first CSV link (assuming there's only one)
+  
+  # Download the CSV file
+  if (!is.na(csv_link)) {
+    download.file(csv_link, paste0(folder_path, new_filename), mode = "wb", quiet = TRUE)
+    cat("Download complete.\n")
+    
+    # Check if the previous file exists in the folder path
+    if (file.exists(paste0(folder_path, filename))) {
+      # Remove the previous file
+      file.remove(paste0(folder_path, filename))
+      cat("Previous file removed.\n")
+    }
+  } else {
+    cat("CSV link not found on the webpage.\n")
+  }
+}
+
+# Download the CSV file and replace the previous one
+download_and_rename(url, filename, new_filename, folder_path)
+
+#load P.aeruginosa rates
 HCAI_P.aeruginosa <- read_csv("07_HCAI_P.aeruginosa.csv")
+
+#clean the data
+HCAI_P.aeruginosa <- HCAI_P.aeruginosa %>% select(`Time period`, Value, Count)
+
+  #AMR Total Prescribing
+
+# URL of the webpage containing the CSV link
+url <- "https://fingertips.phe.org.uk/profile/amr-local-indicators/data#page/4/gid/1938132910/pat/159/par/K02000001/ati/15/are/E92000001/iid/93004/age/1/sex/4/cat/-1/ctp/-1/yrr/1/cid/4/tbm/1"
+
+# Name of the file to be downloaded
+filename <- "Trends.csv"
+
+# New name for the downloaded file
+new_filename <- "10_Antimicrobial resistance total prescribing"
+
+# Folder path to save the downloaded file
+folder_path <- "C:/Users/ABarraclough/Department of Health and Social Care/NW012 - QSAT/Patient Safety/Data & Analysis/101 Dashboard_2022/Dashboard/patient-safety-dashboard/Metrics/inputs for R"
+
+# Function to download CSV file and replace the previous one
+download_and_rename <- function(url, filename, new_filename, folder_path) {
+  # Read the webpage
+  page <- read_html(url)
+  
+  # Extract the link to the CSV file
+  csv_link <- page %>%
+    html_nodes("a[href$='.csv']") %>%
+    html_attr("href") %>%
+    .[1]  # Select the first CSV link (assuming there's only one)
+  
+  # Download the CSV file
+  if (!is.na(csv_link)) {
+    download.file(csv_link, paste0(folder_path, new_filename), mode = "wb", quiet = TRUE)
+    cat("Download complete.\n")
+    
+    # Check if the previous file exists in the folder path
+    if (file.exists(paste0(folder_path, filename))) {
+      # Remove the previous file
+      file.remove(paste0(folder_path, filename))
+      cat("Previous file removed.\n")
+    }
+  } else {
+    cat("CSV link not found on the webpage.\n")
+  }
+}
+
+# Download the CSV file and replace the previous one
+download_and_rename(url, filename, new_filename, folder_path)
+
+  #AMR Broad Spectrum
+
+# URL of the webpage containing the CSV link
+url <- "https://fingertips.phe.org.uk/profile/amr-local-indicators/data#page/4/gid/1938132910/pat/159/par/K02000001/ati/15/are/E92000001/iid/93004/age/1/sex/4/cat/-1/ctp/-1/yrr/1/cid/4/tbm/1"
+
+# Name of the file to be downloaded
+filename <- "Trends.csv"
+
+# New name for the downloaded file
+new_filename <- "11_Antimicrobial resistance broad spectrum"
+
+# Folder path to save the downloaded file
+folder_path <- "C:/Users/ABarraclough/Department of Health and Social Care/NW012 - QSAT/Patient Safety/Data & Analysis/101 Dashboard_2022/Dashboard/patient-safety-dashboard/Metrics/inputs for R"
+
+# Function to download CSV file and replace the previous one
+download_and_rename <- function(url, filename, new_filename, folder_path) {
+  # Read the webpage
+  page <- read_html(url)
+  
+  # Extract the link to the CSV file
+  csv_link <- page %>%
+    html_nodes("a[href$='.csv']") %>%
+    html_attr("href") %>%
+    .[1]  # Select the first CSV link (assuming there's only one)
+  
+  # Download the CSV file
+  if (!is.na(csv_link)) {
+    download.file(csv_link, paste0(folder_path, new_filename), mode = "wb", quiet = TRUE)
+    cat("Download complete.\n")
+    
+    # Check if the previous file exists in the folder path
+    if (file.exists(paste0(folder_path, filename))) {
+      # Remove the previous file
+      file.remove(paste0(folder_path, filename))
+      cat("Previous file removed.\n")
+    }
+  } else {
+    cat("CSV link not found on the webpage.\n")
+  }
+}
+
+# Download the CSV file and replace the previous one
+download_and_rename(url, filename, new_filename, folder_path)
+
 AMR_total_prescribing <- read_csv("10_Antimicrobial resistance total prescribing.csv")
 AMR_broad_spectrum <- read_csv("11_Antimicrobial resistance broad spectrum.csv")
-
-#cleaning the data - starting by selecting columns to keep using select() function 
-
-HCAI_Ecoli <- HCAI_Ecoli %>% select(`Time period`, Value, Count)
-HCAI_MSSA <- HCAI_MSSA %>% select(`Time period`, Value, Count)
-HCAI_Klebsiella <- HCAI_Klebsiella %>% select(`Time period`, Value, Count)
-HCAI_P.aeruginosa <- HCAI_P.aeruginosa %>% select(`Time period`, Value, Count)
 
 
 #filtering so only one value for each quarter for AMR datasets (only keeping NAs in 'Category' and then removing duplicates)
@@ -57,7 +385,7 @@ AMR_broad_spectrum <- AMR_broad_spectrum %>% select(`Time period`, Value, Count)
 PS_incidents <- read_csv("01_patient safety incidents.csv")
 VTE_deaths <- read_csv("12_deaths from VTE.csv")
 inpatient_hip_fractures <- read_csv("13_inpatient hip fractures.csv")
-emergency_readmissions <- read_csv("16_emergency readmissions.csv")
+
 
 
 
@@ -88,7 +416,49 @@ PS_incidents <- head(PS_incidents, -1) #NOTE -
 #automate for future versions where extra
 #rows are added each time
 
+#VTE Data Automation
 
+# URL of the webpage containing the CSV link
+url <- "https://digital.nhs.uk/data-and-information/publications/statistical/nhs-outcomes-framework"
+
+# Name of the file to be downloaded
+filename <- "NHS Outcomes Framework Indicators - March 2022 release.csv"
+
+# New name for the downloaded file
+new_filename <- "12_deaths from VTE.csv"
+
+# Folder path to save the downloaded file
+folder_path <- "C:/Users/ABarraclough/Department of Health and Social Care/NW012 - QSAT/Patient Safety/Data & Analysis/101 Dashboard_2022/Dashboard/patient-safety-dashboard/Metrics/inputs for R"
+
+# Function to download CSV file and replace the previous one
+download_and_rename <- function(url, filename, new_filename, folder_path) {
+  # Read the webpage
+  page <- read_html(url)
+  
+  # Extract the link to the CSV file
+  csv_link <- page %>%
+    html_nodes("a[href$='.csv']") %>%
+    html_attr("href") %>%
+    .[1]  # Select the first CSV link (assuming there's only one)
+  
+  # Download the CSV file
+  if (!is.na(csv_link)) {
+    download.file(csv_link, paste0(folder_path, new_filename), mode = "wb", quiet = TRUE)
+    cat("Download complete.\n")
+    
+    # Check if the previous file exists in the folder path
+    if (file.exists(paste0(folder_path, filename))) {
+      # Remove the previous file
+      file.remove(paste0(folder_path, filename))
+      cat("Previous file removed.\n")
+    }
+  } else {
+    cat("CSV link not found on the webpage.\n")
+  }
+}
+
+# Download the CSV file and replace the previous one
+download_and_rename(url, filename, new_filename, folder_path)
 
 
 
@@ -113,10 +483,51 @@ inpatient_hip_fractures <- inpatient_hip_fractures %>% select(`Trust Discharge Y
 #removing NA columns
 inpatient_hip_fractures <- na.omit(inpatient_hip_fractures)
 
+Emergency Readmissions Automation
 
+emergency_readmissions <- read_csv("16_emergency readmissions.csv")
 
+# URL of the webpage containing the CSV link
+url <- "https://digital.nhs.uk/data-and-information/publications/statistical/compendium-emergency-readmissions/current/emergency-readmissions-to-hospital-within-30-days-of-discharge"
 
+# Name of the file to be downloaded
+filename <- "I02040 Compendium Readmissions Dataset (CSV).csv"
 
+# New name for the downloaded file
+new_filename <- "16_emergency readmissions.csv"
+
+# Folder path to save the downloaded file
+folder_path <- "C:/Users/ABarraclough/Department of Health and Social Care/NW012 - QSAT/Patient Safety/Data & Analysis/101 Dashboard_2022/Dashboard/patient-safety-dashboard/Metrics/inputs for R"
+
+# Function to download CSV file and replace the previous one
+download_and_rename <- function(url, filename, new_filename, folder_path) {
+  # Read the webpage
+  page <- read_html(url)
+  
+  # Extract the link to the CSV file
+  csv_link <- page %>%
+    html_nodes("a[href$='.csv']") %>%
+    html_attr("href") %>%
+    .[1]  # Select the first CSV link (assuming there's only one)
+  
+  # Download the CSV file
+  if (!is.na(csv_link)) {
+    download.file(csv_link, paste0(folder_path, new_filename), mode = "wb", quiet = TRUE)
+    cat("Download complete.\n")
+    
+    # Check if the previous file exists in the folder path
+    if (file.exists(paste0(folder_path, filename))) {
+      # Remove the previous file
+      file.remove(paste0(folder_path, filename))
+      cat("Previous file removed.\n")
+    }
+  } else {
+    cat("CSV link not found on the webpage.\n")
+  }
+}
+
+# Download the CSV file and replace the previous one
+download_and_rename(url, filename, new_filename, folder_path)
 
 #cleaning emergency readmissions data
 
@@ -189,17 +600,55 @@ avoidable_mortality <- avoidable_mortality[-1,]
 avoidable_mortality <- avoidable_mortality %>% filter(Sex == "Persons")
 
 
-
-
-
-
-
-
-
+Stillirths and Neonatal deaths Automation
 
 #stillbirths and neonatal deaths
 #read in
-stillbirth_neonatal <- read_excel("22_23_stillbirth and neonatal mortality.xlsx", sheet = "1")
+#stillbirth_neonatal <- read_excel("22_23_stillbirth and neonatal mortality.xlsx", sheet = "1")
+
+# URL of the webpage containing the CSV link
+url <- "https://www.ons.gov.uk/peoplepopulationandcommunity/birthsdeathsandmarriages/deaths/datasets/childmortalitystatisticschildhoodinfantandperinatalchildhoodinfantandperinatalmortalityinenglandandwales"
+
+# Name of the file to be downloaded
+filename <- "2021 edition of this dataset.csv"
+
+# New name for the downloaded file
+new_filename <- "22_23_stillbirth and neonatal mortality.csv"
+
+# Folder path to save the downloaded file
+folder_path <- "C:/Users/ABarraclough/Department of Health and Social Care/NW012 - QSAT/Patient Safety/Data & Analysis/101 Dashboard_2022/Dashboard/patient-safety-dashboard/Metrics/inputs for R"
+
+# Function to download CSV file and replace the previous one
+download_and_rename <- function(url, filename, new_filename, folder_path) {
+  # Read the webpage
+  page <- read_html(url)
+  
+  # Extract the link to the first CSV file
+  csv_link <- page %>%
+    html_nodes("a[href$='.csv']") %>%
+    html_attr("href") %>%
+    .[1]  # Select the first CSV link
+  
+  # Download the CSV file
+  if (!is.na(csv_link)) {
+    download.file(csv_link, paste0(folder_path, new_filename), mode = "wb", quiet = TRUE)
+    cat("Download complete.\n")
+    
+    # Check if the previous file exists in the folder path
+    if (file.exists(paste0(folder_path, filename))) {
+      # Remove the previous file
+      file.remove(paste0(folder_path, filename))
+      cat("Previous file removed.\n")
+    }
+  } else {
+    cat("CSV link not found on the webpage.\n")
+  }
+}
+
+# Download the CSV file and replace the previous one
+download_and_rename(url, filename, new_filename, folder_path)
+
+
 #deleting first 8 rows
 stillbirth_neonatal <- stillbirth_neonatal[-c(1:8),]
 
@@ -217,9 +666,6 @@ stillbirth_neonatal <- stillbirth_neonatal[order(nrow(stillbirth_neonatal):1),]
 
 
 
-
-
-
 # trolley waits
 
 # read data in - reading in the range rather than full sheet solves the date format issue
@@ -234,22 +680,64 @@ trolley_waits <- trolley_waits %>% select(`Period`, `Total Attendances`,
 
 
 
+Staff Survey Automation
+
+# URL of the webpage containing the CSV link
+url <- "https://www.nhsstaffsurveys.com/results/national-results/"
+
+# Name of the file to be downloaded
+filename <- "National WDES and WRES metrics data 2023.csv"
+
+# New name for the downloaded file
+new_filename <- "09_staff survey culture questions.csv"
+
+# Folder path to save the downloaded file
+folder_path <- "C:/Users/ABarraclough/Department of Health and Social Care/NW012 - QSAT/Patient Safety/Data & Analysis/101 Dashboard_2022/Dashboard/patient-safety-dashboard/Metrics/inputs for R"
+
+# Function to download CSV file and replace the previous one
+download_and_rename <- function(url, filename, new_filename, folder_path) {
+  # Read the webpage
+  page <- read_html(url)
+  
+  # Extract the link to the first CSV file
+  csv_link <- page %>%
+    html_nodes("a[href$='.csv']") %>%
+    html_attr("href") %>%
+    .[1]  # Select the first CSV link
+  
+  # Download the CSV file
+  if (!is.na(csv_link)) {
+    download.file(csv_link, paste0(folder_path, new_filename), mode = "wb", quiet = TRUE)
+    cat("Download complete.\n")
+    
+    # Check if the previous file exists in the folder path
+    if (file.exists(paste0(folder_path, filename))) {
+      # Remove the previous file
+      file.remove(paste0(folder_path, filename))
+      cat("Previous file removed.\n")
+    }
+  } else {
+    cat("CSV link not found on the webpage.\n")
+  }
+}
+
+# Download the CSV file and replace the previous one
+download_and_rename(url, filename, new_filename, folder_path)
 
 
-
-
+#THIS NEEDS UPDATING FOR NEW QUESTIONS!!
 
 # staff survey questions 
 #NOTE: current approach is reading in from aggregated table that's been created in excel
 
-staff_survey <- read_xlsx("09_staff survey safety culture questions.xlsx", sheet = "clean table") 
+#staff_survey <- read_xlsx("09_staff survey safety culture questions.xlsx", sheet = "clean table") 
 
 #naming the column headers
-names(staff_survey) <- staff_survey[1,]
+#names(staff_survey) <- staff_survey[1,]
 
 #deleting the first row (as this is now the header) 
 #and deleting any 0 values by filtering one arbitrary column to remove 0
-staff_survey <- staff_survey[-1,] %>% filter(`top priority` != 0)
+#staff_survey <- staff_survey[-1,] %>% filter(`top priority` != 0)
 
 
 
@@ -266,9 +754,49 @@ cancer_waits <- cancer_waits %>% select(Monthly, `Performance (%)`)
 colnames(cancer_waits)[1] <- "Month"
 
 
+#Vacancy rates automation
 
+# URL of the webpage containing the CSV link
+url <- "https://digital.nhs.uk/data-and-information/publications/statistical/nhs-vacancies-survey"
 
+# Name of the file to be downloaded
+filename <- "NHS Vacancy Statistics England, April 2015 - December 2023, Experimental Statistics.csv"
 
+# New name for the downloaded file
+new_filename <- "08_NHS Vacancy Rates.csv"
+
+# Folder path to save the downloaded file
+folder_path <- "C:/Users/ABarraclough/Department of Health and Social Care/NW012 - QSAT/Patient Safety/Data & Analysis/101 Dashboard_2022/Dashboard/patient-safety-dashboard/Metrics/inputs for R"
+
+# Function to download CSV file and replace the previous one
+download_and_rename <- function(url, filename, new_filename, folder_path) {
+  # Read the webpage
+  page <- read_html(url)
+  
+  # Extract the link to the first CSV file
+  csv_link <- page %>%
+    html_nodes("a[href$='.csv']") %>%
+    html_attr("href") %>%
+    .[1]  # Select the first CSV link
+  
+  # Download the CSV file
+  if (!is.na(csv_link)) {
+    download.file(csv_link, paste0(folder_path, new_filename), mode = "wb", quiet = TRUE)
+    cat("Download complete.\n")
+    
+    # Check if the previous file exists in the folder path
+    if (file.exists(paste0(folder_path, filename))) {
+      # Remove the previous file
+      file.remove(paste0(folder_path, filename))
+      cat("Previous file removed.\n")
+    }
+  } else {
+    cat("CSV link not found on the webpage.\n")
+  }
+}
+
+# Download the CSV file and replace the previous one
+download_and_rename(url, filename, new_filename, folder_path)
 
 
 #vacancy rates
@@ -336,6 +864,9 @@ FFT_data <- read_xlsx("25_FFT data.xlsx", sheet = "Combined data over time")
 
 #Adult inpatient survey data
 Adult_IP_survey <- read_xlsx("26_adult IP survey.xlsx", sheet = "Sheet1")
+
+
+
 
 
 
